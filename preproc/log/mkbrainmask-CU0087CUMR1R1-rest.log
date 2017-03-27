@@ -1,0 +1,232 @@
+mkbrainmask-sess
+CU0087CUMR1R1
+$Id: mkbrainmask-sess,v 1.20.2.1 2012/11/19 22:35:06 greve Exp $
+Linux lilli 2.6.32-642.3.1.el6.x86_64 #1 SMP Tue Jul 12 18:30:56 UTC 2016 x86_64 x86_64 x86_64 GNU/Linux
+Thu Feb  2 13:14:17 EST 2017
+/autofs/space/will_003/users/EMBARC/EMBARC-FAST/scripts/preproc
+/usr/local/freesurfer/stable5_3_0/fsfast/bin/mkbrainmask-sess -maskstem brain -fsd rest -s CU0087CUMR1R1 -d /autofs/space/will_003/users/EMBARC/EMBARC-FAST -update
+ProjectDir /autofs/space/will_003/users/EMBARC/EMBARC-FAST/scripts/preproc
+------------------------------------------------
+/autofs/space/will_003/users/EMBARC/EMBARC-FAST/CU0087CUMR1R1 
+Thu Feb  2 13:14:17 EST 2017
+mkbrainmask -i template.nii.gz -o masks/brain.nii.gz -thresh 0.1 -ndil 1 -nerode 0
+FSLMATHS fslmaths.fsl
+Scratch Dir is /tmp/mkbrainmask_104495
+/autofs/space/will_003/users/EMBARC/EMBARC-FAST/CU0087CUMR1R1/rest
+mri_convert template.nii.gz /tmp/mkbrainmask_104495/in.nii
+mri_convert template.nii.gz /tmp/mkbrainmask_104495/in.nii 
+$Id: mri_convert.c,v 1.179.2.7 2012/09/05 21:55:16 mreuter Exp $
+reading from template.nii.gz...
+TR=2000.00, TE=0.00, TI=0.00, flip angle=0.00
+i_ras = (-1, 0, 0)
+j_ras = (0, -0.993232, 0.11615)
+k_ras = (-0, 0.11613, 0.993234)
+writing to /tmp/mkbrainmask_104495/in.nii...
+# ---------- Using FSL's BET to Extract Brain------------------ #
+/autofs/space/will_003/users/EMBARC/EMBARC-FAST/CU0087CUMR1R1/rest
+bet.fsl /tmp/mkbrainmask_104495/in.nii /tmp/mkbrainmask_104495/brain -m -f 0.1
+mri_binarize --i /tmp/mkbrainmask_104495/brain_mask.nii --min .01 --o /tmp/mkbrainmask_104495/brain_mask.nii
+
+$Id: mri_binarize.c,v 1.26.2.1 2011/04/08 15:40:50 greve Exp $
+cwd /autofs/space/will_003/users/EMBARC/EMBARC-FAST/CU0087CUMR1R1/rest
+cmdline mri_binarize --i /tmp/mkbrainmask_104495/brain_mask.nii --min .01 --o /tmp/mkbrainmask_104495/brain_mask.nii 
+sysname  Linux
+hostname lilli
+machine  x86_64
+user     aafzal
+
+input      /tmp/mkbrainmask_104495/brain_mask.nii
+frame      0
+nErode3d   0
+nErode2d   0
+output     /tmp/mkbrainmask_104495/brain_mask.nii
+Binarizing based on threshold
+min        0.01
+max        +infinity
+binval        1
+binvalnot     0
+Found 42786 values in range
+Counting number of voxels
+Found 42786 voxels in final mask
+mri_binarize done
+Diliating 1
+/autofs/space/will_003/users/EMBARC/EMBARC-FAST/CU0087CUMR1R1/rest
+mri_binarize --i /tmp/mkbrainmask_104495/brain_mask.nii --min 0.5 --dilate 1 --o /tmp/mkbrainmask_104495/brain_mask.nii
+
+$Id: mri_binarize.c,v 1.26.2.1 2011/04/08 15:40:50 greve Exp $
+cwd /autofs/space/will_003/users/EMBARC/EMBARC-FAST/CU0087CUMR1R1/rest
+cmdline mri_binarize --i /tmp/mkbrainmask_104495/brain_mask.nii --min 0.5 --dilate 1 --o /tmp/mkbrainmask_104495/brain_mask.nii 
+sysname  Linux
+hostname lilli
+machine  x86_64
+user     aafzal
+
+input      /tmp/mkbrainmask_104495/brain_mask.nii
+frame      0
+nErode3d   0
+nErode2d   0
+output     /tmp/mkbrainmask_104495/brain_mask.nii
+Binarizing based on threshold
+min        0.5
+max        +infinity
+binval        1
+binvalnot     0
+Found 42786 values in range
+Dilating 1 voxels in 3d
+Counting number of voxels
+Found 52490 voxels in final mask
+mri_binarize done
+/autofs/space/will_003/users/EMBARC/EMBARC-FAST/CU0087CUMR1R1/rest
+mri_convert /tmp/mkbrainmask_104495/brain_mask.nii masks/brain.nii.gz
+mri_convert /tmp/mkbrainmask_104495/brain_mask.nii masks/brain.nii.gz 
+$Id: mri_convert.c,v 1.179.2.7 2012/09/05 21:55:16 mreuter Exp $
+reading from /tmp/mkbrainmask_104495/brain_mask.nii...
+TR=1000.00, TE=0.00, TI=0.00, flip angle=0.00
+i_ras = (-1, 0, 0)
+j_ras = (0, -0.993232, 0.11615)
+k_ras = (0, 0.11613, 0.993234)
+writing to masks/brain.nii.gz...
+ 
+----------------- mkbrainmask Done -----------------------------
+ 
+mkbrainmask -i 001/template.nii.gz -o 001/masks/brain.nii.gz -thresh 0.1 -ndil 1 -nerode 0
+FSLMATHS fslmaths.fsl
+Scratch Dir is /tmp/mkbrainmask_104606
+/autofs/space/will_003/users/EMBARC/EMBARC-FAST/CU0087CUMR1R1/rest
+mri_convert 001/template.nii.gz /tmp/mkbrainmask_104606/in.nii
+mri_convert 001/template.nii.gz /tmp/mkbrainmask_104606/in.nii 
+$Id: mri_convert.c,v 1.179.2.7 2012/09/05 21:55:16 mreuter Exp $
+reading from 001/template.nii.gz...
+TR=2000.00, TE=0.00, TI=0.00, flip angle=0.00
+i_ras = (-1, 0, 0)
+j_ras = (0, -0.993232, 0.11615)
+k_ras = (-0, 0.11613, 0.993234)
+writing to /tmp/mkbrainmask_104606/in.nii...
+# ---------- Using FSL's BET to Extract Brain------------------ #
+/autofs/space/will_003/users/EMBARC/EMBARC-FAST/CU0087CUMR1R1/rest
+bet.fsl /tmp/mkbrainmask_104606/in.nii /tmp/mkbrainmask_104606/brain -m -f 0.1
+mri_binarize --i /tmp/mkbrainmask_104606/brain_mask.nii --min .01 --o /tmp/mkbrainmask_104606/brain_mask.nii
+
+$Id: mri_binarize.c,v 1.26.2.1 2011/04/08 15:40:50 greve Exp $
+cwd /autofs/space/will_003/users/EMBARC/EMBARC-FAST/CU0087CUMR1R1/rest
+cmdline mri_binarize --i /tmp/mkbrainmask_104606/brain_mask.nii --min .01 --o /tmp/mkbrainmask_104606/brain_mask.nii 
+sysname  Linux
+hostname lilli
+machine  x86_64
+user     aafzal
+
+input      /tmp/mkbrainmask_104606/brain_mask.nii
+frame      0
+nErode3d   0
+nErode2d   0
+output     /tmp/mkbrainmask_104606/brain_mask.nii
+Binarizing based on threshold
+min        0.01
+max        +infinity
+binval        1
+binvalnot     0
+Found 42786 values in range
+Counting number of voxels
+Found 42786 voxels in final mask
+mri_binarize done
+Diliating 1
+/autofs/space/will_003/users/EMBARC/EMBARC-FAST/CU0087CUMR1R1/rest
+mri_binarize --i /tmp/mkbrainmask_104606/brain_mask.nii --min 0.5 --dilate 1 --o /tmp/mkbrainmask_104606/brain_mask.nii
+
+$Id: mri_binarize.c,v 1.26.2.1 2011/04/08 15:40:50 greve Exp $
+cwd /autofs/space/will_003/users/EMBARC/EMBARC-FAST/CU0087CUMR1R1/rest
+cmdline mri_binarize --i /tmp/mkbrainmask_104606/brain_mask.nii --min 0.5 --dilate 1 --o /tmp/mkbrainmask_104606/brain_mask.nii 
+sysname  Linux
+hostname lilli
+machine  x86_64
+user     aafzal
+
+input      /tmp/mkbrainmask_104606/brain_mask.nii
+frame      0
+nErode3d   0
+nErode2d   0
+output     /tmp/mkbrainmask_104606/brain_mask.nii
+Binarizing based on threshold
+min        0.5
+max        +infinity
+binval        1
+binvalnot     0
+Found 42786 values in range
+Dilating 1 voxels in 3d
+Counting number of voxels
+Found 52490 voxels in final mask
+mri_binarize done
+/autofs/space/will_003/users/EMBARC/EMBARC-FAST/CU0087CUMR1R1/rest
+mri_convert /tmp/mkbrainmask_104606/brain_mask.nii 001/masks/brain.nii.gz
+mri_convert /tmp/mkbrainmask_104606/brain_mask.nii 001/masks/brain.nii.gz 
+$Id: mri_convert.c,v 1.179.2.7 2012/09/05 21:55:16 mreuter Exp $
+reading from /tmp/mkbrainmask_104606/brain_mask.nii...
+TR=1000.00, TE=0.00, TI=0.00, flip angle=0.00
+i_ras = (-1, 0, 0)
+j_ras = (0, -0.993232, 0.11615)
+k_ras = (0, 0.11613, 0.993234)
+writing to 001/masks/brain.nii.gz...
+ 
+----------------- mkbrainmask Done -----------------------------
+ 
+mri_binarize --i 001/masks/brain.nii.gz --min 0.5 --zero-edges --erode 3 --o 001/masks/brain.e3.nii.gz
+
+$Id: mri_binarize.c,v 1.26.2.1 2011/04/08 15:40:50 greve Exp $
+cwd /autofs/space/will_003/users/EMBARC/EMBARC-FAST/CU0087CUMR1R1/rest
+cmdline mri_binarize --i 001/masks/brain.nii.gz --min 0.5 --zero-edges --erode 3 --o 001/masks/brain.e3.nii.gz 
+sysname  Linux
+hostname lilli
+machine  x86_64
+user     aafzal
+
+input      001/masks/brain.nii.gz
+frame      0
+nErode3d   3
+nErode2d   0
+output     001/masks/brain.e3.nii.gz
+Binarizing based on threshold
+min        0.5
+max        +infinity
+binval        1
+binvalnot     0
+Found 51780 values in range
+Eroding 3 voxels in 3d
+Counting number of voxels
+Found 25841 voxels in final mask
+mri_binarize done
+meanval --i 001/f.nii.gz --m 001/masks/brain.e3.nii.gz --o 001/global.meanval.dat --avgwf 001/global.waveform.dat
+Thu Feb  2 13:14:20 EST 2017
+
+setenv SUBJECTS_DIR /space/will/3/users/EMBARC/Recons
+cd /autofs/space/will_003/users/EMBARC/EMBARC-FAST/CU0087CUMR1R1/rest
+/usr/local/freesurfer/stable5_3_0/bin/meanval --i 001/f.nii.gz --m 001/masks/brain.e3.nii.gz --o 001/global.meanval.dat --avgwf 001/global.waveform.dat
+
+freesurfer-Linux-centos6_x86_64-stable-pub-v5.3.0
+Linux lilli 2.6.32-642.3.1.el6.x86_64 #1 SMP Tue Jul 12 18:30:56 UTC 2016 x86_64 x86_64 x86_64 GNU/Linux
+mri_segstats --seg 001/masks/brain.e3.nii.gz --id 1 --sum /autofs/space/will_003/users/EMBARC/EMBARC-FAST/CU0087CUMR1R1/rest/001/tmpdir.meanval.104716/blah.104716 --in 001/f.nii.gz --sfavg 001/global.meanval.dat --avgwf 001/global.waveform.dat
+
+$Id: mri_segstats.c,v 1.75.2.9 2013/02/16 00:09:33 greve Exp $
+cwd 
+cmdline mri_segstats --seg 001/masks/brain.e3.nii.gz --id 1 --sum /autofs/space/will_003/users/EMBARC/EMBARC-FAST/CU0087CUMR1R1/rest/001/tmpdir.meanval.104716/blah.104716 --in 001/f.nii.gz --sfavg 001/global.meanval.dat --avgwf 001/global.waveform.dat 
+sysname  Linux
+hostname lilli
+machine  x86_64
+user     aafzal
+UseRobust  0
+Loading 001/masks/brain.e3.nii.gz
+Loading 001/f.nii.gz
+Voxel Volume is 31.8055 mm^3
+Generating list of segmentation ids
+Found   1 segmentations
+Computing statistics for each segmentation
+  0     1                                      25841  821886.750
+
+Reporting on   1 segmentations
+Computing spatial average of each frame
+  0
+Writing to 001/global.meanval.dat
+0 3958.18
+Writing to 001/global.waveform.dat
+mri_segstats done
+Thu Feb  2 13:14:21 EST 2017
+mkbrainmask-sess done

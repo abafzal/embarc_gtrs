@@ -1,0 +1,37 @@
+mktemplate-sess log file
+$Id: mktemplate-sess,v 1.10 2011/03/08 03:37:59 greve Exp $
+Linux lilli 2.6.32-642.3.1.el6.x86_64 #1 SMP Tue Jul 12 18:30:56 UTC 2016 x86_64 x86_64 x86_64 GNU/Linux
+Thu Feb  2 13:12:56 EST 2017
+/autofs/space/will_003/users/EMBARC/EMBARC-FAST/scripts/preproc
+UpdateOnly 0
+/usr/local/freesurfer/stable5_3_0/fsfast/bin/mktemplate-sess -s CU0087CUMR1R1 -d /autofs/space/will_003/users/EMBARC/EMBARC-FAST -fsd rest -update -force -frame 81
+ 
+Session: /autofs/space/will_003/users/EMBARC/EMBARC-FAST/CU0087CUMR1R1 ----------------
+Thu Feb  2 13:12:56 EST 2017
+Detected input format at nii.gz
+/autofs/space/will_003/users/EMBARC/EMBARC-FAST/scripts/preproc
+mri_convert /autofs/space/will_003/users/EMBARC/EMBARC-FAST/CU0087CUMR1R1/rest/001/f.nii.gz /autofs/space/will_003/users/EMBARC/EMBARC-FAST/CU0087CUMR1R1/rest/template.nii.gz --frame 81
+mri_convert /autofs/space/will_003/users/EMBARC/EMBARC-FAST/CU0087CUMR1R1/rest/001/f.nii.gz /autofs/space/will_003/users/EMBARC/EMBARC-FAST/CU0087CUMR1R1/rest/template.nii.gz --frame 81 
+$Id: mri_convert.c,v 1.179.2.7 2012/09/05 21:55:16 mreuter Exp $
+reading from /autofs/space/will_003/users/EMBARC/EMBARC-FAST/CU0087CUMR1R1/rest/001/f.nii.gz...
+TR=2000.00, TE=0.00, TI=0.00, flip angle=0.00
+i_ras = (-1, 0, 0)
+j_ras = (0, -0.993232, 0.11615)
+k_ras = (-0, 0.11613, 0.993234)
+keeping frame 81
+writing to /autofs/space/will_003/users/EMBARC/EMBARC-FAST/CU0087CUMR1R1/rest/template.nii.gz...
+  Run: 001 ----------------
+  Thu Feb  2 13:13:03 EST 2017
+/autofs/space/will_003/users/EMBARC/EMBARC-FAST/scripts/preproc
+mri_convert /autofs/space/will_003/users/EMBARC/EMBARC-FAST/CU0087CUMR1R1/rest/001/f.nii.gz /autofs/space/will_003/users/EMBARC/EMBARC-FAST/CU0087CUMR1R1/rest/001/template.nii.gz --mid-frame
+mri_convert /autofs/space/will_003/users/EMBARC/EMBARC-FAST/CU0087CUMR1R1/rest/001/f.nii.gz /autofs/space/will_003/users/EMBARC/EMBARC-FAST/CU0087CUMR1R1/rest/001/template.nii.gz --mid-frame 
+$Id: mri_convert.c,v 1.179.2.7 2012/09/05 21:55:16 mreuter Exp $
+reading from /autofs/space/will_003/users/EMBARC/EMBARC-FAST/CU0087CUMR1R1/rest/001/f.nii.gz...
+TR=2000.00, TE=0.00, TI=0.00, flip angle=0.00
+i_ras = (-1, 0, 0)
+j_ras = (0, -0.993232, 0.11615)
+k_ras = (-0, 0.11613, 0.993234)
+keeping frame 90
+writing to /autofs/space/will_003/users/EMBARC/EMBARC-FAST/CU0087CUMR1R1/rest/001/template.nii.gz...
+Thu Feb  2 13:13:04 EST 2017
+mktemplate-sess completed 

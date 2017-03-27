@@ -1,0 +1,143 @@
+import os
+import itertools
+import numpy as np
+import pandas as pd
+import networkx as nx
+import scipy.io as sio
+from itertools import permutations
+
+## Define functions. 
+def efficiency(G, u, v):
+    return 1. / nx.shortest_path_length(G, u, v)
+
+def global_efficiency(G):
+    n = len(G)
+    denom = n * (n - 1)
+    return sum(efficiency(G, u, v) for u, v in permutations(G, 2)) / denom
+
+def local_efficiency(G):
+    return sum(global_efficiency(nx.ego_graph(G, v)) for v in G) / len(G)
+
+## Specify directories.
+gt_dir = '/space/will/3/users/EMBARC/EMBARC-FAST/scripts/subtypes_gt'
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+### Construct network.
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+
+## Specify directories.
+gt_dir = '/space/will/3/users/EMBARC/EMBARC-FAST/scripts/subtypes_gt'
+
+## Load regions.
+regions = [line.strip() for line in open("/space/will/3/users/EMBARC/EMBARC-FAST/scripts/subtypes_gt/gt_regions", 'r')]
+n_regions = len(regions)
+
+## Specify subjects.
+pps = [line.strip() for line in open("/space/will/3/users/EMBARC/EMBARC-FAST/scripts/subtypes_gt/gt_subjects", 'r')]
+hcs = [line.strip() for line in open("/space/will/3/users/EMBARC/EMBARC-FAST/scripts/subtypes_gt/gt_healthies", 'r')]
+subjects = pps + hcs
+n_subs = len(subjects)
+
+## Specify parameters. 
+density_range = [0.3,0.1]
+thresholds = np.arange(0.10,2.50,0.05)  ## len(thresholds) = 48
+metrics = ['threshold', 'n_nodes', 'n_edges', 'avg_degree', 'n_components', 'cc_node_ratio', 'cc_edge_ratio', 'density', 
+           'clustering_coefficient', 'avg_path_length', 'glob_efficiency', 'loc_efficiency']
+
+## Load graph metrics.
+metrics_pd = pd.read_csv(os.path.join(gt_dir, 'graph_metrics', 'metrics_by_rtoz_threshold.csv'), 
+                         usecols=['Subject_ID', 'threshold', 'n_nodes', 'n_edges', 'avg_degree', 'n_components', 'cc_node_ratio', 'cc_edge_ratio', 'density'])
+metrics_pd['cohort'] = [1 if subject in pps else 2 for subject in metrics_pd.Subject_ID]
+
+## Reset index. 
+metrics_pd = metrics_pd.set_index('Subject_ID', drop=True)
+
+## Threshold by average degree. 
+metrics_pd = metrics_pd.where(metrics_pd.avg_degree > (2 * np.log(metrics_pd.n_nodes)))
+
+## Threshold by ratio of nodes and edges in largest connected component. 
+metrics_pd = metrics_pd.where(metrics_pd.cc_node_ratio > 0.9)
+metrics_pd = metrics_pd.where(metrics_pd.cc_node_ratio > 0.9)
+
+## Threshold by density.
+metrics_pd.density = np.round(metrics_pd.density,2)
+metrics_pd = metrics_pd.where(((metrics_pd.density<=density_range[0])&(metrics_pd.density>=density_range[1])))
+
+## Remove NaNs. 
+metrics_pd = metrics_pd.dropna()
+
+## Matrix to store data. 
+metrics_dat = np.zeros((np.unique(metrics_pd.index).shape[0],thresholds.shape[0],len(metrics)))
+
+## Iterate over subjects.
+for s,subject in enumerate(np.unique(metrics_pd.index)):
+            
+    print subject, 
+    
+    ## Load data. 
+    rtoz = np.load(os.path.join(gt_dir, 'correlations', '%s_rtoz.npz' %subject))['zmat']
+    
+    ## Iterate over thresholds. 
+    for t,thresh in enumerate(np.array(metrics_pd.loc[subject,'threshold'])): 
+        
+        #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+        ### Create graph.
+        #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+        G = nx.Graph()
+        G.add_nodes_from(regions)
+
+        for q,r,val in zip(np.tril_indices(126,k=-1)[0], np.tril_indices(126,k=-1)[1], rtoz):
+            if not np.isnan(val) and val >= thresh:
+                G.add_edge(regions[q],regions[r])
+
+        G.remove_nodes_from(G.nodes_with_selfloops())
+
+        #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+        ### Compute graph metrics.
+        #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+        n_nodes = nx.number_of_nodes(G)
+        n_edges = nx.number_of_edges(G)
+
+        max_edges = (n_nodes*(n_nodes-1))/2
+        avg_degree = sum(nx.degree(G).values()) / n_nodes  
+
+        n_components = nx.number_connected_components(G)
+        largest_cc = max(nx.connected_component_subgraphs(G), key=len)
+        cc_nodes = nx.number_of_nodes(max(nx.connected_component_subgraphs(G), key=len))
+        cc_edges = nx.number_of_edges(max(nx.connected_component_subgraphs(G), key=len))
+
+        cc_node_ratio = float(cc_nodes) / n_nodes
+        cc_edge_ratio = float(cc_edges) / n_edges
+
+        density = np.round(nx.density(G),3)
+
+        ## Global metrics.
+        clustering_coeff = np.round(nx.average_clustering(G),3)
+        
+        if n_components >1: 
+            avg_path_length = np.round(nx.average_shortest_path_length(largest_cc),3)
+            glob_efficiency = np.round(global_efficiency(largest_cc),3)
+            loc_efficiency = np.round(local_efficiency(largest_cc),3)
+        else: 
+            avg_path_length = np.round(nx.average_shortest_path_length(G),3)
+            glob_efficiency = np.round(global_efficiency(G),3)
+            loc_efficiency = np.round(local_efficiency(G),3)
+
+        ## Store metrics. 
+        metrics_dat[s,t] = np.array([thresh, n_nodes, n_edges, avg_degree, n_components, cc_node_ratio, cc_edge_ratio, 
+        density, clustering_coeff, avg_path_length, glob_efficiency, loc_efficiency])
+
+## Flatten. 
+metrics_dat = metrics_dat.reshape((len(subjects)*len(thresholds),len(metrics)),order='C')
+
+## Convert to csv. Save.
+subject_ids = np.expand_dims(np.repeat(np.array(subjects),len(thresholds)),axis=1)
+metrics_updated = pd.DataFrame(np.concatenate([subject_ids, metrics_dat],axis=1),columns=['Subject_ID'] + metrics)
+
+## Remove rows with all zeros.
+metrics_updated[(metrics_updated.T != 0).any()]
+
+## Save. 
+metrics_updated.to_csv(os.path.join(gt_dir, 'graph_metrics', 'metrics_by_density.csv'))
+
+print 'Done.' 

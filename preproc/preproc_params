@@ -1,0 +1,21 @@
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
+### Beta-zero Correction
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
+
+TEDIFF (TE1 - TE2) of the field map
+MGH: 2.46
+
+esp (Echo Spacing - the acquisition time between rows in k-space) during EPI acquisition
+MGH: 0.52ms
+
+
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
+### Slice-Time Correction
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##
+
+MGH: Siemens interleaved. Preproc-sess: -so siemens
+Columbia:
+Texas:
+Michigan:
+
+

@@ -1,0 +1,22 @@
+set SUBJECTS = (CU0002CUMR1R1)
+
+set MRI_DIR = /space/will/3/users/EMBARC/EMBARC-FAST
+set TASK = rest
+
+## Call Freesurfer
+fs
+
+foreach SUBJECT ($SUBJECTS)
+
+  ## Define files.
+  set TEMPLATE = $MRI_DIR/$SUBJECT/$TASK/template.nii.gz
+  set REG =  $MRI_DIR/$SUBJECT/$TASK/001/masks/$SUBJECT.rest.reg.dat
+  set OUT = $MRI_DIR/$SUBJECT/$TASK/001/masks/wm.mgz
+
+  ## Co-register subject's native space to EPI image.
+  bbregister --s $SUBJECT --mov $TEMPLATE --reg $REG --init-fsl --bold
+
+  ## Warp white matter mask to EPI space.
+  mri_vol2vol --mov $TEMPLATE --targ $SUBJECTS_DIR/$SUBJECT/mri/wm.mgz --reg $REG --o $OUT --nearest --inv
+
+end
